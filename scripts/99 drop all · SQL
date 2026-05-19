@@ -1,0 +1,136 @@
+/* -- ============================================================
+-- PROJET FIN DE MODULE : Système Bancaire Oracle
+-- Script : 99_drop_all.sql
+-- Description : Suppression de tous les objets dans l'ordre
+--               inverse de leur création
+-- Connexion : bank_admin
+-- ⚠ ATTENTION : Ce script supprime TOUTES les données !
+-- ============================================================
+
+-- ============================================================
+-- 1. SYNONYMES PUBLICS (connexion SYSTEM requise)
+-- ============================================================
+-- DROP PUBLIC SYNONYM pub_comptes;
+-- DROP PUBLIC SYNONYM pub_comptes_clients;
+
+-- ============================================================
+-- 2. SYNONYMES PRIVÉS
+-- ============================================================
+DROP SYNONYM comptes_clients;
+DROP SYNONYM stats_transactions;
+DROP SYNONYM virements_detail;
+DROP SYNONYM stats_mensuelles;
+
+-- ============================================================
+-- 3. VUE MATÉRIALISÉE
+-- ============================================================
+DROP MATERIALIZED VIEW mv_stats_mensuelles_virements;
+
+-- ============================================================
+-- 4. VUES
+-- ============================================================
+DROP VIEW vue_stats_transactions;
+DROP VIEW vue_virements_statuts;
+DROP VIEW vue_comptes_clients;
+
+-- ============================================================
+-- 5. INDEX
+-- ============================================================
+DROP INDEX idx_btree_tx_compte;
+DROP INDEX idx_btree_tx_date;
+DROP INDEX idx_btree_tx_compte_date;
+DROP INDEX idx_btree_vir_date;
+DROP INDEX idx_btree_comptes_client;
+DROP INDEX idx_btree_credits_client;
+DROP INDEX idx_btree_vir_source;
+DROP INDEX idx_bitmap_comptes_statut;
+DROP INDEX idx_bitmap_comptes_type;
+DROP INDEX idx_bitmap_tx_statut;
+DROP INDEX idx_bitmap_vir_statut;
+DROP INDEX idx_func_clients_nom;
+DROP INDEX idx_func_clients_prenom;
+DROP INDEX idx_func_clients_email;
+
+-- ============================================================
+-- 6. PACKAGE
+-- ============================================================
+DROP PACKAGE pkg_virements;
+
+-- ============================================================
+-- 7. TRIGGERS
+-- ============================================================
+DROP TRIGGER trg_solde_negatif;
+DROP TRIGGER trg_audit_comptes;
+DROP TRIGGER trg_audit_virements;
+DROP TRIGGER trg_date_modif_comptes;
+DROP TRIGGER trg_date_modif_clients;
+DROP TRIGGER trg_date_modif_virements;
+DROP TRIGGER trg_date_modif_cartes;
+DROP TRIGGER trg_detection_fraude;
+
+-- ============================================================
+-- 8. PROCÉDURES
+-- ============================================================
+DROP PROCEDURE valider_virement;
+DROP PROCEDURE annuler_virement;
+DROP PROCEDURE ouvrir_compte;
+
+-- ============================================================
+-- 9. FONCTIONS
+-- ============================================================
+DROP FUNCTION calculer_total_compte;
+DROP FUNCTION calculer_remise;
+DROP FUNCTION compte_disponible;
+
+-- ============================================================
+-- 10. TABLES (ordre inverse des dépendances FK)
+-- ============================================================
+DROP TABLE ALERTES_FRAUDE       CASCADE CONSTRAINTS;
+DROP TABLE ERROR_LOG             CASCADE CONSTRAINTS;
+DROP TABLE AUDIT_LOG             CASCADE CONSTRAINTS;
+DROP TABLE PLAFONDS_CREDIT       CASCADE CONSTRAINTS;
+DROP TABLE ECHEANCES_CREDIT      CASCADE CONSTRAINTS;
+DROP TABLE CREDITS               CASCADE CONSTRAINTS;
+DROP TABLE TRANSACTIONS          CASCADE CONSTRAINTS;
+DROP TABLE VIREMENTS             CASCADE CONSTRAINTS;
+DROP TABLE STATUTS_VIREMENT      CASCADE CONSTRAINTS;
+DROP TABLE CARTES                CASCADE CONSTRAINTS;
+DROP TABLE COMPTES               CASCADE CONSTRAINTS;
+DROP TABLE HISTORIQUE_CONNEXIONS CASCADE CONSTRAINTS;
+DROP TABLE ADMINS                CASCADE CONSTRAINTS;
+DROP TABLE CLIENTS               CASCADE CONSTRAINTS;
+DROP TABLE ROLES                 CASCADE CONSTRAINTS;
+
+-- ============================================================
+-- 11. SÉQUENCES
+-- ============================================================
+DROP SEQUENCE seq_alertes_fraude;
+DROP SEQUENCE seq_error_log;
+DROP SEQUENCE seq_audit_log;
+DROP SEQUENCE seq_plafonds_credit;
+DROP SEQUENCE seq_echeances_credit;
+DROP SEQUENCE seq_credits;
+DROP SEQUENCE seq_transactions;
+DROP SEQUENCE seq_virements;
+DROP SEQUENCE seq_statuts_virement;
+DROP SEQUENCE seq_cartes;
+DROP SEQUENCE seq_comptes;
+DROP SEQUENCE seq_historique_connexions;
+DROP SEQUENCE seq_admins;
+DROP SEQUENCE seq_clients;
+DROP SEQUENCE seq_roles;
+
+-- ============================================================
+-- VÉRIFICATION FINALE
+-- ============================================================
+SELECT 'Tables restantes : ' || COUNT(*) AS info
+FROM user_tables;
+
+SELECT 'Sequences restantes : ' || COUNT(*) AS info
+FROM user_sequences;
+
+SELECT 'Objets restants : ' || COUNT(*) AS info
+FROM user_objects
+WHERE object_type NOT IN ('INDEX');
+
+SELECT 'Nettoyage termine avec succes !' AS MESSAGE FROM DUAL;
