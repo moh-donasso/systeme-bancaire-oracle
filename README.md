@@ -13,12 +13,10 @@ Il couvre la modélisation, le développement SQL/PL/SQL, l'administration Oracl
 
 ##  Équipe
 
-| Membre | Rôle | Scripts |
-|--------|------|---------|
-| Étudiant 1 | Architecte BD — MCD, MLD, Tables, Données | `01`, `11` |
-| Étudiant 2 | Développeur PL/SQL — Procédures, Fonctions, Triggers | `06`, `07`, `08` |
-| Étudiant 3 | Développeur Avancé — Package, Vues, Index, EXPLAIN PLAN | `03`, `04`, `09`, `12` |
-| Étudiant 4 | Administrateur Oracle — Users, Rôles, Audit, GitHub | `00`, `02`, `05`, `10`, `99` |
+| Membre |
+|--------|
+| COULIBALY Donasso Mohamed |
+| VASSOU guidjinga Xavier |
 
 ---
 
@@ -42,7 +40,7 @@ systeme-bancaire-oracle/
 │   ├── 12_explain_plan.sql   # EXPLAIN PLAN avant/après index
 │   └── 99_drop_all.sql       # Nettoyage complet
 ├── docs/
-│   ├── rapport.pdf           # Rapport technique (15-20 pages)
+│   ├── rapport.pdf           # Rapport technique 
 │   ├── presentation.pptx     # Diaporama soutenance
 │   └── schema/
 │       └── erd.png           # Diagramme Entité-Relation
